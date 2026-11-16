@@ -1701,6 +1701,318 @@
         overflow-x: auto;
       }
     }
+
+    @media (min-width: 769px) {
+      .navbar .nav-menu { order: 2 !important; }
+      .navbar > div:nth-child(2) { order: 3 !important; }
+    }
+
+    @media (max-width: 768px) {
+      html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      /* 1. Top Bar Compact Mobile */
+      .top-bar {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+        padding: 7px 3%;
+      }
+      .top-bar-left {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        font-size: 11.5px;
+      }
+      .top-bar-right {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+      }
+      .social-link {
+        width: 25px;
+        height: 25px;
+        font-size: 11px;
+      }
+
+      /* 2. Navbar Single-Line Mobile + Dropdown Menu */
+      .navbar {
+        padding: 10px 4%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+      }
+      .logo-container {
+        gap: 8px;
+      }
+      .logo-k {
+        width: 34px;
+        height: 34px;
+      }
+      .logo-k svg {
+        width: 34px;
+        height: 34px;
+      }
+      .logo-text h2 {
+        font-size: 16px;
+        letter-spacing: 0.8px;
+      }
+      .logo-text span {
+        font-size: 9px !important;
+        letter-spacing: 2px !important;
+      }
+      .btn-demo-pill {
+        padding: 7px 11px;
+        font-size: 11px;
+        gap: 5px;
+        white-space: nowrap;
+      }
+      .mobile-menu-btn {
+        display: inline-flex;
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+      }
+      .nav-menu {
+        display: none;
+        width: 100%;
+        order: 3 !important;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        padding: 12px 0 4px;
+        margin-top: 6px;
+        border-top: 1px solid #e5e2d9;
+      }
+      .nav-menu.mobile-open {
+        display: flex;
+      }
+      .nav-item {
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 10px;
+      }
+      .nav-item a {
+        width: 100%;
+        display: block;
+      }
+
+      /* 3. Hero Section Mobile */
+      .hero-section {
+        padding: 28px 4% 38px;
+        gap: 22px;
+      }
+      .hero-text h1 {
+        font-size: 27px;
+        line-height: 1.22;
+        margin-bottom: 12px;
+      }
+      .hero-text p {
+        font-size: 13.5px;
+        margin-bottom: 18px;
+      }
+      .hero-btns {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+      }
+      .btn-explore, .btn-hero-demo {
+        width: 100%;
+        justify-content: center;
+        padding: 11px 18px;
+        font-size: 13.5px;
+      }
+      .floating-badge {
+        display: none;
+      }
+      .laptop-frame {
+        max-width: 100%;
+      }
+      .laptop-screen-bezel {
+        width: 94%;
+        padding: 7px;
+      }
+      .laptop-base {
+        height: 14px;
+      }
+      .laptop-base::after {
+        width: 55px;
+        height: 4px;
+      }
+
+      /* 4. Stats Counter 2x2 Grid on Mobile */
+      .stats-wrapper {
+        margin-top: 0;
+        padding: 16px 4% 10px;
+      }
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 14px 10px;
+        gap: 10px;
+      }
+      .stat-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 6px;
+        padding: 10px 6px;
+        border-right: none;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      .stat-item:nth-last-child(-n+2) {
+        border-bottom: none;
+      }
+      .stat-icon {
+        font-size: 22px;
+      }
+      .stat-content h3 {
+        font-size: 20px;
+      }
+      .stat-content p {
+        font-size: 11.5px;
+      }
+
+      /* 5. Section Headers & Grids Mobile */
+      .section-header {
+        padding: 36px 4% 20px;
+      }
+      .section-header h2 {
+        font-size: 22px;
+        gap: 8px;
+      }
+      .section-header h2::before, .section-header h2::after {
+        width: 18px;
+      }
+      .section-header p {
+        font-size: 13.5px;
+      }
+      .services-grid {
+        grid-template-columns: 1fr !important;
+        padding: 0 4% 45px;
+        gap: 14px;
+      }
+      .products-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px;
+      }
+      .products-container {
+        padding: 0 4% 45px;
+        gap: 18px;
+      }
+      .website-portfolio-grid, .website-blog-grid {
+        grid-template-columns: 1fr !important;
+        padding: 0 4% 40px;
+        gap: 16px;
+      }
+
+      /* 6. About, Industries & Contact Mobile */
+      .about-section {
+        padding: 36px 4% 40px;
+      }
+      .about-img-box img {
+        height: 230px;
+      }
+      .about-exp-badge {
+        bottom: -12px;
+        right: 14px;
+        padding: 10px 14px;
+      }
+      .about-exp-badge h3 {
+        font-size: 20px;
+      }
+      .about-content h2 {
+        font-size: 24px;
+      }
+      .about-features {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .industries-section {
+        padding: 10px 4% 45px;
+      }
+      .industries-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px;
+      }
+      #contact {
+        padding: 30px 4% 50px !important;
+      }
+      #contact .about-grid > div {
+        padding: 22px 16px !important;
+      }
+
+      /* 7. Promo Rocket Box */
+      .promo-card {
+        padding: 22px 18px;
+      }
+      .promo-card h3 {
+        font-size: 19px;
+      }
+      .rocket-graphic {
+        width: 95px;
+      }
+
+      /* 8. Footer Mobile */
+      footer {
+        padding: 36px 4% 20px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr !important;
+        gap: 22px;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      /* 9. Floating WhatsApp & Modals Mobile */
+      .whatsapp-float {
+        bottom: 14px;
+        right: 14px;
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+      }
+      .modal-card {
+        padding: 22px 18px;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      /* 10. Admin Portal Scrollable on Mobile */
+      #adminPanel {
+        overflow-y: auto;
+      }
+      .admin-wrapper {
+        flex-direction: column;
+        height: auto;
+      }
+      .admin-sidebar {
+        width: 100%;
+        padding: 14px 12px;
+        border-right: none;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      }
+      .admin-menu-item {
+        padding: 9px 12px;
+        font-size: 13px;
+      }
+      .admin-main {
+        padding: 18px 12px;
+      }
+      .admin-form-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .admin-card {
+        padding: 16px 12px;
+        overflow-x: auto;
+      }
+    }
+
   </style>
 </head>
 <body>
