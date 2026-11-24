@@ -1387,11 +1387,55 @@
     .item-preview-img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; }
     
     /* Dynamic Website Portfolio & Blog Styling */
-    .website-portfolio-grid, .website-blog-grid {
+    .website-portfolio-grid, .website-blog-grid, .website-videos-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
       padding: 0 6% 60px;
+    }
+    .video-card {
+      background: #ffffff;
+      border: 1px solid var(--border-gray);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .video-card:hover {
+      transform: translateY(-6px);
+      border-color: #d4af37;
+      box-shadow: 0 15px 35px rgba(184, 134, 11, 0.2);
+    }
+    .video-iframe-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      background: #000;
+    }
+    .video-iframe-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .video-info {
+      padding: 18px;
+      flex-grow: 1;
+    }
+    .video-info h4 {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #0c182b;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .video-info p {
+      font-size: 13px;
+      color: #64748b;
     }
     .portfolio-box, .blog-card {
       background: #ffffff;
@@ -2019,6 +2063,7 @@
         <div class="nav-item" data-page="industries"><a href="#industries" onclick="openPage('industries', event)">Industries</a></div>
         <div class="nav-item" data-page="portfolio"><a href="#portfolio" onclick="openPage('portfolio', event)">Portfolio</a></div>
         <div class="nav-item" data-page="blog"><a href="#blog" onclick="openPage('blog', event)">Blog</a></div>
+        <div class="nav-item" data-page="videos"><a href="#videos" onclick="openPage('videos', event)">Videos</a></div>
         <div class="nav-item" data-page="contact"><a href="#contact" onclick="openPage('contact', event)">Contact Us</a></div>
       </div>
     </nav>
@@ -2361,6 +2406,17 @@
       </div>
     </section>
 
+    <!-- DYNAMIC YOUTUBE VIDEOS SECTION -->
+    <section id="videos" class="site-page">
+      <div class="section-header reveal">
+        <h2>Latest YouTube Videos</h2>
+        <p>Watch software demos, tutorials & updates from our official channel</p>
+      </div>
+      <div class="website-videos-grid" id="websiteVideosGrid">
+        <!-- YouTube videos dynamically render hongi -->
+      </div>
+    </section>
+
     <!-- CONTACT US PAGE -->
     <section id="contact" class="site-page" style="padding: 60px 6% 85px; background: #faf9f5;">
       <div class="section-header" style="padding-top: 10px;">
@@ -2608,7 +2664,7 @@
           </div>
         </div>
 
-        <!-- 5 Active Tabs -->
+        <!-- Active Tabs -->
         <div class="admin-menu-item active" onclick="switchAdminTab('dashboard')">
           <i class="fa-solid fa-chart-pie"></i> Dashboard
         </div>
@@ -2623,6 +2679,9 @@
         </div>
         <div class="admin-menu-item" onclick="switchAdminTab('blog')">
           <i class="fa-solid fa-newspaper"></i> Blog Posts
+        </div>
+        <div class="admin-menu-item" onclick="switchAdminTab('videos')">
+          <i class="fa-brands fa-youtube"></i> YouTube Videos
         </div>
         <div class="admin-menu-item" onclick="switchAdminTab('slider')">
           <i class="fa-solid fa-laptop"></i> Laptop Images
@@ -2824,6 +2883,46 @@
               <tbody id="adminDemosTable">
                 <tr><td colspan="6" style="text-align:center; color:#a3a3a3;">Loading requests...</td></tr>
               </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 6. YOUTUBE VIDEOS MODULE -->
+        <div id="adm-videos" class="adm-section" style="display:none;">
+          <div class="admin-card">
+            <h3><i class="fa-brands fa-youtube"></i> Add YouTube Video Manually</h3>
+            <p style="font-size:12.5px; color:#a3a3a3; margin-bottom:16px;">Yahan YouTube ka link paste karein (e.g. <code>https://www.youtube.com/watch?v=VIDEO_ID</code> ya Shorts link). Yeh foran website ke Videos section me show ho jayegi.</p>
+            <form onsubmit="handleCreateVideo(event)">
+              <div class="admin-form-grid">
+                <div>
+                  <label style="font-size:12px; color:#94a3b8; display:block; margin-bottom:5px;">Video Title</label>
+                  <input type="text" id="videoTitle" class="admin-input" placeholder="e.g. Korvexa ERP Complete Demo" required>
+                </div>
+                <div>
+                  <label style="font-size:12px; color:#94a3b8; display:block; margin-bottom:5px;">YouTube Video URL / Link</label>
+                  <input type="url" id="videoUrl" class="admin-input" placeholder="https://www.youtube.com/watch?v=..." required>
+                </div>
+                <div style="grid-column: span 2;">
+                  <label style="font-size:12px; color:#94a3b8; display:block; margin-bottom:5px;">Short Description</label>
+                  <input type="text" id="videoDesc" class="admin-input" placeholder="Video ke mutaliq thodi wazahat..." required>
+                </div>
+              </div>
+              <button type="submit" class="btn-admin-add"><i class="fa-solid fa-plus"></i> Add Video to Website</button>
+            </form>
+          </div>
+
+          <div class="admin-card">
+            <h3><i class="fa-solid fa-list-check"></i> Manage Website Videos</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Preview</th>
+                  <th>Title</th>
+                  <th>Video ID</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminVideosTable"></tbody>
             </table>
           </div>
         </div>
@@ -3111,6 +3210,7 @@
       renderServices();
       renderPortfolio();
       renderBlog();
+      renderVideos();
       renderLaptopSlides();
       loadDemoRequests();
     }
@@ -3324,6 +3424,95 @@
       renderBlog();
     }
 
+
+// ================= YOUTUBE VIDEOS ENGINE =================
+    const initialVideos = [
+      {
+        id: 1,
+        title: "Korvexa ERP & POS Business Software",
+        desc: "Watch how Korvexa Solutions streamlines retail, accounts and inventory.",
+        youtubeId: "dQw4w9WgXcQ" // Example ID, aap Admin panel se apni video daal sakte hain
+      }
+    ];
+
+    function extractYouTubeId(url) {
+      if (!url) return '';
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : url;
+    }
+
+    function renderVideos() {
+      const videos = getStored('korvexa_videos', initialVideos);
+
+      const webGrid = document.getElementById('websiteVideosGrid');
+      if (webGrid) {
+        if (videos.length === 0) {
+          webGrid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#64748b;">Filhal koi video mojood nahi hai. Admin Panel se video add karein.</div>`;
+        } else {
+          webGrid.innerHTML = videos.map(v => `
+            <div class="video-card reveal active">
+              <div class="video-iframe-wrap">
+                <iframe src="https://www.youtube.com/embed/${v.youtubeId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="video-info">
+                <h4>${escHtml(v.title)}</h4>
+                <p>${escHtml(v.desc || '')}</p>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+
+      const admTable = document.getElementById('adminVideosTable');
+      if (admTable) {
+        admTable.innerHTML = videos.map(v => `
+          <tr>
+            <td>
+              <img src="https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg" class="item-preview-img" style="width:70px; height:45px; object-fit:cover;">
+            </td>
+            <td><strong>${escHtml(v.title)}</strong></td>
+            <td style="color:#d4af37;"><code>${v.youtubeId}</code></td>
+            <td><button class="btn-admin-del" onclick="deleteVideo(${v.id})"><i class="fa-solid fa-trash"></i> Delete</button></td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function handleCreateVideo(e) {
+      e.preventDefault();
+      const title = document.getElementById('videoTitle').value.trim();
+      const rawUrl = document.getElementById('videoUrl').value.trim();
+      const desc = document.getElementById('videoDesc').value.trim();
+
+      const yId = extractYouTubeId(rawUrl);
+      if (!yId) {
+        alert('Ghalat YouTube link! Meherbani karke theek YouTube URL enter karein.');
+        return;
+      }
+
+      const videos = getStored('korvexa_videos', initialVideos);
+      videos.unshift({
+        id: Date.now(),
+        title: title,
+        desc: desc,
+        youtubeId: yId
+      });
+
+      saveStored('korvexa_videos', videos);
+      e.target.reset();
+      renderVideos();
+      alert('Video kamyabi se website par add ho gayi hai!');
+    }
+
+    function deleteVideo(id) {
+      if (!confirm('Kya aap yeh video website se hatana chahte hain?')) return;
+      let videos = getStored('korvexa_videos', initialVideos);
+      videos = videos.filter(v => v.id !== id);
+      saveStored('korvexa_videos', videos);
+      renderVideos();
+    }
+
     // 4. DEMO REQUESTS MANAGEMENT (FIREBASE LIVE SYNC)
     let unsubscribeDemos = null;
 
@@ -3435,6 +3624,7 @@
         services: "SERVICES & PRICING MANAGEMENT",
         portfolio: "PORTFOLIO & CASE STUDIES",
         blog: "BLOG & ARTICLES",
+        videos: "YOUTUBE VIDEOS MANAGEMENT",
         slider: "LAPTOP SCREEN IMAGES (MAX 5)"
       };
 
@@ -3602,6 +3792,7 @@
       renderServices();
       renderPortfolio();
       renderBlog();
+      renderVideos();
       renderLaptopSlides();
       startLaptopSlider();
     });
