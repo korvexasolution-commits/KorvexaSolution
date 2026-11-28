@@ -134,23 +134,43 @@
       100% { width: 100%; }
     }
 
-    /* ================= SCROLL REVEAL ANIMATIONS ================= */
+    /* ================= LUXURY SMOOTH SCROLL & SLIDE OPEN ANIMATIONS ================= */
     .reveal {
       opacity: 0;
-      transform: translateY(35px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform;
+      transform: translateY(40px) scale(0.97);
+      filter: blur(4px);
+      transition: opacity 0.85s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  filter 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: opacity, transform, filter;
     }
 
     .reveal.active {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
+      filter: blur(0px);
     }
 
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-1 { transition-delay: 0.12s; }
+    .reveal-delay-2 { transition-delay: 0.22s; }
+    .reveal-delay-3 { transition-delay: 0.32s; }
+    .reveal-delay-4 { transition-delay: 0.42s; }
+
+    /* Jab bhi koi naya page/slide open ho to smooth slide + fade animation */
+    .site-page.active-page {
+      animation: smoothPageEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes smoothPageEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(22px) scale(0.99);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
 
     /* ================= 1. TOP BAR ================= */
     .top-bar {
@@ -1412,7 +1432,9 @@
       position: relative;
       width: 100%;
       padding-top: 56.25%; /* 16:9 Aspect Ratio */
-      background: #000;
+      background: #000000;
+      overflow: hidden;
+      cursor: pointer;
     }
     .video-iframe-wrap iframe {
       position: absolute;
@@ -1421,6 +1443,45 @@
       width: 100%;
       height: 100%;
       border: 0;
+      z-index: 2;
+    }
+    .video-thumb-cover {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease, filter 0.3s ease;
+    }
+    .video-card:hover .video-thumb-cover {
+      transform: scale(1.05);
+      filter: brightness(0.85);
+    }
+    .video-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 62px;
+      height: 62px;
+      background: rgba(10, 10, 10, 0.85);
+      border: 2px solid #d4af37;
+      color: #d4af37;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
+      transition: all 0.3s ease;
+      z-index: 3;
+      padding-left: 4px;
+    }
+    .video-iframe-wrap:hover .video-play-btn {
+      background: linear-gradient(135deg, #d4af37, #9e7314);
+      color: #0a0a0a;
+      transform: translate(-50%, -50%) scale(1.15);
+      box-shadow: 0 0 35px rgba(212, 175, 55, 0.7);
     }
     .video-info {
       padding: 18px;
@@ -2006,20 +2067,7 @@
   <!-- ================= PUBLIC CLIENT WEBSITE ================= -->
   <div id="clientWebsite">
 
-    <!-- 1. TOP BAR -->
-    <div class="top-bar">
-      <div class="top-bar-left">
-        <a href="mailto:info@korvexa.com"><i class="fa-regular fa-envelope"></i> info@korvexa.com</a>
-        <a href="tel:+923706949556"><i class="fa-solid fa-phone"></i> +92 370 6949556</a>
-      </div>
-      <div class="top-bar-right">
-        <a href="https://www.facebook.com/korvexaslotions/" target="_blank" rel="noopener noreferrer" class="social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com/korvexasolution" target="_blank" rel="noopener noreferrer" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://www.linkedin.com/in/korvexa-solution-038b50438/" target="_blank" rel="noopener noreferrer" class="social-link" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="https://www.youtube.com/@KorvexaSolutions" target="_blank" rel="noopener noreferrer" class="social-link" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-        <button onclick="openLoginModal()" style="background:none; border:none; color:#64748b; font-size:12px; margin-left:10px; cursor:pointer;"><i class="fa-solid fa-lock"></i> Staff</button>
-      </div>
-    </div>
+   
 
     <!-- 2. MAIN NAVBAR -->
     <nav class="navbar">
@@ -2541,12 +2589,38 @@
         </div>
       </div>
 
-      <div class="footer-bottom">
-        <div>&copy; 2026 Korvexa Solutions. All Rights Reserved.</div>
-        <div>
-          <a href="#">Privacy Policy</a> | 
-          <a href="#">Terms & Conditions</a> | 
-          <a href="#">FAQ</a>
+      <!-- UPDATED FOOTER BOTTOM: Socials, Contact & Staff Login Shifted Here -->
+      <div class="footer-bottom" style="flex-direction: column; gap: 16px; border-top: 1px solid rgba(212, 175, 55, 0.25); padding-top: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 15px;">
+          <!-- Left: Contact Details -->
+          <div style="display: flex; gap: 20px; font-size: 13px; color: #cbd5e1; flex-wrap: wrap;">
+            <a href="mailto:info@korvexa.com" style="display: flex; align-items: center; gap: 6px;"><i class="fa-regular fa-envelope" style="color: #d4af37;"></i> info@korvexa.com</a>
+            <a href="tel:+923706949556" style="display: flex; align-items: center; gap: 6px;"><i class="fa-solid fa-phone" style="color: #d4af37;"></i> +92 370 6949556</a>
+          </div>
+
+          <!-- Center: Social Media Links -->
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <a href="https://www.facebook.com/korvexaslotions/" target="_blank" rel="noopener noreferrer" class="social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/korvexasolution" target="_blank" rel="noopener noreferrer" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/korvexa-solution-038b50438/" target="_blank" rel="noopener noreferrer" class="social-link" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://www.youtube.com/@KorvexaSolutions" target="_blank" rel="noopener noreferrer" class="social-link" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+
+          <!-- Right: Staff Login Button -->
+          <div>
+            <button onclick="openLoginModal()" style="background: rgba(212, 175, 55, 0.12); border: 1px solid rgba(212, 175, 55, 0.4); color: #d4af37; padding: 7px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: 0.3s;">
+              <i class="fa-solid fa-user-shield"></i> Staff Portal
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; font-size: 12px; color: #64748b; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 14px; flex-wrap: wrap; gap: 10px;">
+          <div>&copy; 2026 Korvexa Solutions. All Rights Reserved.</div>
+          <div>
+            <a href="#">Privacy Policy</a> | 
+            <a href="#">Terms & Conditions</a> | 
+            <a href="#">FAQ</a>
+          </div>
         </div>
       </div>
     </footer>
@@ -3125,7 +3199,14 @@
       const target = document.getElementById(pageId);
       if (target) {
         target.classList.add('active-page');
-        target.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+        
+        // Cards ko fresh animation dene ke liye classes re-trigger ki ja rahi hain
+        const reveals = target.querySelectorAll('.reveal');
+        reveals.forEach(el => el.classList.remove('active'));
+        
+        setTimeout(() => {
+          reveals.forEach(el => el.classList.add('active'));
+        }, 50);
       }
 
       document.querySelectorAll('.nav-item').forEach(item => {
@@ -3425,61 +3506,106 @@
     }
 
 
-// ================= YOUTUBE VIDEOS ENGINE =================
-    const initialVideos = [
-      {
-        id: 1,
-        title: "Korvexa ERP & POS Business Software",
-        desc: "Watch how Korvexa Solutions streamlines retail, accounts and inventory.",
-        youtubeId: "dQw4w9WgXcQ" // Example ID, aap Admin panel se apni video daal sakte hain
-      }
-    ];
+// ================= YOUTUBE VIDEOS ENGINE (ENGLISH + ON-DEMAND PLAY) =================
+    let unsubscribeVideos = null;
 
     function extractYouTubeId(url) {
       if (!url) return '';
       const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
       const match = url.match(regExp);
-      return (match && match[2].length === 11) ? match[2] : url;
+      return (match && match[2].length === 11) ? match[2] : (url.length === 11 ? url : '');
     }
 
-    function renderVideos() {
-      const videos = getStored('korvexa_videos', initialVideos);
+    // Function that loads the video ONLY when the user clicks the thumbnail
+    function playVideoOnClick(container, youtubeId) {
+      container.innerHTML = `
+        <iframe 
+          src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      `;
+      container.onclick = null; // Disable further click triggers once running
+      container.style.cursor = 'default';
+    }
 
+    // Real-time synchronization from Firebase Firestore
+    function listenToWebsiteVideos() {
       const webGrid = document.getElementById('websiteVideosGrid');
-      if (webGrid) {
-        if (videos.length === 0) {
-          webGrid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#64748b;">Filhal koi video mojood nahi hai. Admin Panel se video add karein.</div>`;
-        } else {
-          webGrid.innerHTML = videos.map(v => `
-            <div class="video-card reveal active">
-              <div class="video-iframe-wrap">
-                <iframe src="https://www.youtube.com/embed/${v.youtubeId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-              </div>
-              <div class="video-info">
-                <h4>${escHtml(v.title)}</h4>
-                <p>${escHtml(v.desc || '')}</p>
-              </div>
-            </div>
-          `).join('');
-        }
-      }
-
       const admTable = document.getElementById('adminVideosTable');
-      if (admTable) {
-        admTable.innerHTML = videos.map(v => `
-          <tr>
-            <td>
-              <img src="https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg" class="item-preview-img" style="width:70px; height:45px; object-fit:cover;">
-            </td>
-            <td><strong>${escHtml(v.title)}</strong></td>
-            <td style="color:#d4af37;"><code>${v.youtubeId}</code></td>
-            <td><button class="btn-admin-del" onclick="deleteVideo(${v.id})"><i class="fa-solid fa-trash"></i> Delete</button></td>
-          </tr>
-        `).join('');
-      }
+
+      if (unsubscribeVideos) unsubscribeVideos();
+
+      unsubscribeVideos = db.collection('website_videos')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot((snapshot) => {
+          if (snapshot.empty) {
+            if (webGrid) {
+              webGrid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align:center; padding:45px 20px; color:#64748b; font-size:14.5px;">
+                  <i class="fa-brands fa-youtube" style="font-size:36px; color:#d4af37; margin-bottom:12px; display:block;"></i>
+                  No videos published yet. Check back soon!
+                </div>`;
+            }
+            if (admTable) {
+              admTable.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#a3a3a3; padding:20px;">No videos added yet.</td></tr>`;
+            }
+            return;
+          }
+
+          // 1. Live Public Website Grid (Video only shows when played)
+          if (webGrid) {
+            webGrid.innerHTML = snapshot.docs.map(doc => {
+              const v = doc.data();
+              return `
+                <div class="video-card reveal active">
+                  <div class="video-iframe-wrap" onclick="playVideoOnClick(this, '${v.youtubeId}')" title="Click to play video">
+                    <img class="video-thumb-cover" src="https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg" alt="${escHtml(v.title)}" loading="lazy">
+                    <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
+                  </div>
+                  <div class="video-info">
+                    <h4>${escHtml(v.title)}</h4>
+                    <p>${escHtml(v.desc || '')}</p>
+                  </div>
+                </div>
+              `;
+            }).join('');
+          }
+
+          // 2. Admin Portal Table
+          if (admTable) {
+            admTable.innerHTML = snapshot.docs.map(doc => {
+              const v = doc.data();
+              return `
+                <tr>
+                  <td>
+                    <img src="https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg" class="item-preview-img" style="width:70px; height:45px; object-fit:cover; border-radius:6px;">
+                  </td>
+                  <td><strong>${escHtml(v.title)}</strong></td>
+                  <td style="color:#d4af37;"><code>${v.youtubeId}</code></td>
+                  <td>
+                    <button class="btn-admin-del" onclick="deleteVideoFromFirebase('${doc.id}')">
+                      <i class="fa-solid fa-trash"></i> Delete
+                    </button>
+                  </td>
+                </tr>
+              `;
+            }).join('');
+          }
+        }, (error) => {
+          console.error("Error loading videos:", error);
+          if (webGrid) {
+            webGrid.innerHTML = `
+              <div style="grid-column: 1/-1; text-align:center; padding:30px; color:#ef4444; font-size:14px;">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size:24px; margin-bottom:8px; display:block;"></i>
+                Unable to load videos: ${escHtml(error.message)}
+              </div>`;
+          }
+        });
     }
 
-    function handleCreateVideo(e) {
+    // Add Video from Staff Admin Portal
+    async function handleCreateVideo(e) {
       e.preventDefault();
       const title = document.getElementById('videoTitle').value.trim();
       const rawUrl = document.getElementById('videoUrl').value.trim();
@@ -3487,30 +3613,41 @@
 
       const yId = extractYouTubeId(rawUrl);
       if (!yId) {
-        alert('Ghalat YouTube link! Meherbani karke theek YouTube URL enter karein.');
+        alert('Invalid YouTube URL! Please enter a valid YouTube link or ID.');
         return;
       }
 
-      const videos = getStored('korvexa_videos', initialVideos);
-      videos.unshift({
-        id: Date.now(),
-        title: title,
-        desc: desc,
-        youtubeId: yId
-      });
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publishing...';
+      submitBtn.disabled = true;
 
-      saveStored('korvexa_videos', videos);
-      e.target.reset();
-      renderVideos();
-      alert('Video kamyabi se website par add ho gayi hai!');
+      try {
+        await db.collection('website_videos').add({
+          title: title,
+          youtubeId: yId,
+          desc: desc,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        alert('Video successfully published to the website!');
+        e.target.reset();
+      } catch (err) {
+        alert('Failed to add video: ' + err.message);
+      } finally {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
     }
 
-    function deleteVideo(id) {
-      if (!confirm('Kya aap yeh video website se hatana chahte hain?')) return;
-      let videos = getStored('korvexa_videos', initialVideos);
-      videos = videos.filter(v => v.id !== id);
-      saveStored('korvexa_videos', videos);
-      renderVideos();
+    // Delete Video from Firestore
+    async function deleteVideoFromFirebase(docId) {
+      if (!confirm('Are you sure you want to delete this video from the website?')) return;
+      try {
+        await db.collection('website_videos').doc(docId).delete();
+      } catch (err) {
+        alert('Failed to delete video: ' + err.message);
+      }
     }
 
     // 4. DEMO REQUESTS MANAGEMENT (FIREBASE LIVE SYNC)
@@ -3792,7 +3929,7 @@
       renderServices();
       renderPortfolio();
       renderBlog();
-      renderVideos();
+      listenToWebsiteVideos(); // Firebase Live Video Sync for all users
       renderLaptopSlides();
       startLaptopSlider();
     });
